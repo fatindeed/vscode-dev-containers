@@ -1,0 +1,38 @@
+name: Build Image
+
+on:
+  # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+  schedule:
+    # On 2:01 UTC, Sunday and Thursday
+    - cron:  '1 2 * * */4'
+
+jobs:
+  # get day of the week
+  # date:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     day: ${{ steps.date.outputs.day }}
+  #   steps:
+  #   - id: date
+  #     run: echo "::set-output name=day::$(date +%w)"
+  # rebase and push on Sunday
+  # rebase:
+  #   runs-on: ubuntu-latest
+  #   needs: date
+  #   if: needs.date.outputs.day == '0'
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 3  # greater than the number of commits you made
+  #     - name: Rebase upstream
+  #       uses: imba-tjd/rebase-upstream-action@master
+  #       with:
+  #         upstream: microsoft/vscode-dev-containers
+  # trigger build on other days
+  dockerhub:
+    runs-on: ubuntu-latest
+    # needs: date
+    # if: needs.date.outputs.day != '0'
+    steps:
+      - run: curl -d "" ${{ secrets.DOCKERHUB_TRIGGER_URL }}
